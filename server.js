@@ -22,7 +22,7 @@ app.use('/api/contacts', require('./routes/contacts'));
 app.use('/api/auth', require('./routes/auth'));
 
 // serve static assets in production
-if(provess.env.NODE_ENV === 'production') {
+if(process.env.NODE_ENV === 'production') {
 	// set static folder
 	app.use(express.static('client/build'));
 

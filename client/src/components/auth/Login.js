@@ -1,6 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+
+import {Redirect} from 'react-router-dom';
+
+import AuthContext from '../../context/auth/authContext';
+import AlertContext from '../../context/alert/alertContext';
 
 const Login = () => {
+
+	const {logInUser, error, clearErrors, isAuthenticated} = useContext(AuthContext)
+	const {setAlert} = useContext(AlertContext);
+
+	useEffect(() => {
+
+		if(error === 'Invalid credentials') {
+			setAlert(error, 'danger')
+			clearErrors()
+		}
+	//eslint-disable-next-line
+	}, [error, isAuthenticated])
+
 	const [user, setUser] = useState({
 		email: '',
 		password: '',
@@ -14,8 +32,16 @@ const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('login submit')
+    if(email === '' || password === '') {
+			setAlert('Please fill in all fields', 'danger')
+		} else {
+			logInUser(user)
+		}
   }
+
+	if(isAuthenticated) {
+		return (<Redirect to="/" />)
+	}
 
 	return (
 		<div className='form-container'>

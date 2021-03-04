@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://MFA86:A99pwit9@reactftbproject2.o0omg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "jwtSecret": "secret"
+}

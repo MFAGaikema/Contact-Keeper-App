@@ -9,35 +9,39 @@ import Home from './components/pages/Home';
 import About from './components/pages/About';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Alerts from './components/layout/Alerts';
+import PrivateRoute from './components/routing/PrivateRoute';
+
+import setAuthToken from './utils/setAuthToken'
 
 import ContactState from './context/contacts/ContactState';
 import AuthState from './context/auth/AuthState';
+import AlertState from './context/alert/AlertState';
+
+if(localStorage.token) {
+	setAuthToken(localStorage.token)
+}
 
 const App = () => {
 	return (
 		<AuthState>
 			<ContactState>
-				<Router>
-					<Fragment>
-						<Navbar />
-						<div className='container'>
-							<Switch>
-								<Route exact path='/'>
-									<Home />
-								</Route>
-								<Route path='/about'>
-									<About />
-								</Route>
-								<Route path='/register'>
-								<Register />
-							</Route>
-							<Route path='/login'>
-							<Login />
-						</Route>
-							</Switch>
-						</div>
-					</Fragment>
-				</Router>
+				<AlertState>
+					<Router>
+						<Fragment>
+							<Navbar />
+							<div className='container'>
+								<Alerts />
+								<Switch>
+									<PrivateRoute exact path='/' component={Home}/>
+									<Route path='/about' component={About}/>
+									<Route path='/register' component={Register}/>
+									<Route path='/login' component={Login}/>
+								</Switch>
+							</div>
+						</Fragment>
+					</Router>
+				</AlertState>
 			</ContactState>
 		</AuthState>
 	);
